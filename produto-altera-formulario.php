@@ -7,14 +7,17 @@ include("banco-produto.php");
 $id = $_GET['id'];
 $produto = buscaProduto($conexao, $id);
 $categorias = listaCategoria($conexao);
+
+$usado = $produto['usado'] ? "checked='checked'" : "";
 ?>
-<input type="text" name="nome" value="<?= $produto['nome']?>">
+
 <h2 class="border-bottom pb-2 mb-4">Formulário de cadastro de produto</h2>
-<form action="adiciona-produto.php" method="post">
+<form action="altera-produto.php" method="post">
+    <input type="hidden" name="id" value="<?=$produto['id']?>">
     <div class="form-row">
         <div class="form-group col-md-8">
             <label for="nomeP">Nome</label>
-            <input type="text" class="form-control" name="nome" value="<?= $produto['nome']?>">
+            <input type="text" class="form-control" name="nome" value="<?=$produto['nome']?>">
         </div>
         <div class="form-group col-md-4">
             <label for="precoP">Preço</label>
@@ -30,16 +33,24 @@ $categorias = listaCategoria($conexao);
         <div class="form-group col-md-4">
             <label for="categoriaP">Categoria</label>
             <select id="categoriaP" class="form-control" name="categoria_id">
-                <?php foreach ($categorias as $categoria) : ?>
-                    <option value="<?= $categoria['id'] ?>">
+
+                <?php 
+                    foreach ($categorias as $categoria) :
+                        $categoriaSelecionada = $produto['categoria_id'] == $categoria['id'];
+                        $selecao = $categoriaSelecionada ? "selected='selected'" : "";
+                 ?>
+
+                    <option value="<?= $categoria['id'] ?>" <?= $selecao ?>>
                         <?= $categoria['nome'] ?>
                     </option>
+
                 <?php endforeach; ?>
+
             </select>
         </div>
     </div>
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" name="usado" id="novoP" value="true">
+        <input type="checkbox" <?= $usado?> class="custom-control-input" name="usado" id="novoP" value="true" >
         <label class="custom-control-label" for="novoP">Produto novo</label>
     </div>
     <br>

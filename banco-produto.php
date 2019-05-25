@@ -8,6 +8,19 @@ function insereProduto($conexao, $nome, $preco, $descricao, $categoria_id, $usad
     return mysqli_query($conexao, $query);
 }
 
+// ALTERA PRODUTO
+function alteraProduto($conexao, $id, $nome, $preco, $descricao, $categoria_id, $usado)
+{
+    $query = "UPDATE produtos SET 
+    nome = '{$nome}',
+    preco = {$preco},
+    descricao = '{$descricao}',
+    categoria_id = {$categoria_id},
+    usado = {$usado}
+    WHERE id = {$id}";
+    return mysqli_query($conexao, $query);
+}
+
 // LISTA PRODUTOS
 function listaProduto($conexao)
 {
@@ -28,7 +41,7 @@ function removeProduto($conexao, $id)
     return mysqli_query($conexao, $query);
 }
 
-// BUSCA PRODUTOS
+// BUSCA PRODUTOS NO FORMULÁRIO DE ALTERAÇÃO
 function buscaProduto($conexao, $id)
 {
     $query = "SELECT * FROM produtos WHERE id = {$id}";
